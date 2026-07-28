@@ -102,6 +102,9 @@ function update(delta){
 
 }
 
+if(typeof updatePlanet==="function")
+    updatePlanet();
+
 // =====================
 // Draw
 // =====================

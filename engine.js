@@ -154,7 +154,10 @@ function update(delta){
     if(typeof updateCamera === "function")
         updateCamera();
 
-
+   
+    if(typeof updateMission==="function")
+        updateMission();
+    
 }
 
 
@@ -219,6 +222,12 @@ function draw(){
     if(typeof drawHUD === "function")
         drawHUD();
 
+    
+    
+    // MissionHUD
+    
+    if(typeof drawMissionHUD==="function")
+        drawMissionHUD();
 
 }
 

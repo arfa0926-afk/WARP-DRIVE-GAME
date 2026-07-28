@@ -100,6 +100,9 @@ function update(delta){
     if(typeof updateCamera==="function")
         updateCamera(delta);
 
+    if(typeof updateHUD==="function")
+    updateHUD();
+
 }
 
 if(typeof updatePlanet==="function")

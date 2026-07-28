@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WARP DRIVE GAME</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+<title>WARP DRIVE GAME</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
 <body>
 
@@ -16,18 +18,33 @@
     <h1>🚀 WARP DRIVE</h1>
 
     <div class="status">
+
         <p>Planet Tujuan</p>
+
         <h2 id="planetName">Belum Dipilih</h2>
+
     </div>
 
     <div class="status">
+
         <p>Kecepatan</p>
-        <h2><span id="speed">0</span> C</h2>
+
+        <h2>
+            <span id="speed">0</span> C
+        </h2>
+
     </div>
 
     <div class="status">
+
         <p>Energi Warp</p>
-        <progress id="energy" value="100" max="100"></progress>
+
+        <progress
+            id="energy"
+            value="100"
+            max="100">
+        </progress>
+
     </div>
 
     <div class="buttons">
@@ -56,7 +73,7 @@
 
     <div class="warpButtons">
 
-        <button id="warpButton" onclick="startWarp()">
+        <button onclick="startWarp()">
             ⚡ AKTIFKAN WARP
         </button>
 
@@ -68,9 +85,9 @@
 
     <div class="control">
 
-        <h3>Kendali Pesawat</h3>
+        <h3>Kontrol Pesawat</h3>
 
-        <p>⬅️ ➡️ ⬆️ ⬇️ atau WASD</p>
+        <p>W A S D / Tombol Panah</p>
 
     </div>
 
@@ -84,6 +101,15 @@
 
 </div>
 
+<!-- File JavaScript -->
+
+<script src="engine.js"></script>
+<script src="player.js"></script>
+<script src="stars.js"></script>
+<script src="planets.js"></script>
+<script src="warp.js"></script>
+<script src="audio.js"></script>
+<script src="hud.js"></script>
 <script src="script.js"></script>
 
 </body>

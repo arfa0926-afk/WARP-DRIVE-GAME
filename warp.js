@@ -1,7 +1,12 @@
 // ======================================
 // WARP.JS
-// Warp Drive
+// Sistem Warp Drive
 // ======================================
+
+
+// =====================
+// DATA WARP
+// =====================
 
 const Warp = {
 
@@ -9,132 +14,267 @@ const Warp = {
 
     speed:0,
 
-    maxSpeed:500,
+    maxSpeed:1000,
 
-    energy:100
+    energy:100,
+
+    cooldown:0
 
 };
 
+
 // =====================
-// Aktifkan Warp
+// AKTIFKAN WARP
 // =====================
 
 function startWarp(){
 
-    if(Warp.energy <= 0) return;
 
-    Warp.active = true;
+    if(Warp.energy <= 5)
+        return;
 
-    const msg = document.getElementById("message");
+
+    Warp.active=true;
+
+
+    if(typeof playWarpSound==="function")
+        playWarpSound();
+
+
+
+    const msg =
+    document.getElementById("message");
+
 
     if(msg)
-        msg.textContent = "⚡ Warp Drive Aktif";
+        msg.textContent=
+        "⚡ WARP DRIVE AKTIF";
 
 }
 
+
+
 // =====================
-// Matikan Warp
+// MATIKAN WARP
 // =====================
 
 function stopWarp(){
 
-    Warp.active = false;
 
-    const msg = document.getElementById("message");
+    Warp.active=false;
+
+
+    const msg =
+    document.getElementById("message");
+
 
     if(msg)
-        msg.textContent = "Warp Drive Dimatikan";
+        msg.textContent=
+        "Warp dimatikan";
 
 }
 
+
+
 // =====================
-// Update Warp
+// UPDATE WARP
 // =====================
 
 function updateWarp(delta){
 
+
     if(Warp.active){
+
+
+        // akselerasi
 
         if(Warp.speed < Warp.maxSpeed){
 
-            Warp.speed += 120 * delta;
+            Warp.speed +=
+            400 * delta;
 
         }
 
-        Warp.energy -= 8 * delta;
 
-        if(Warp.energy <= 0){
 
-            Warp.energy = 0;
+        // konsumsi energi
+
+        Warp.energy -=
+        10 * delta;
+
+
+
+        if(Warp.energy<=0){
+
+            Warp.energy=0;
 
             stopWarp();
 
         }
 
-    }else{
 
-        if(Warp.speed > 0){
+    }
+    else{
 
-            Warp.speed -= 180 * delta;
 
-        }
+        // perlambatan
 
-        if(Warp.speed < 0)
-            Warp.speed = 0;
+        Warp.speed -=
+        500 * delta;
 
-        if(Warp.energy < 100){
 
-            Warp.energy += 4 * delta;
+        if(Warp.speed<0)
 
-        }
+            Warp.speed=0;
 
-        if(Warp.energy > 100)
-            Warp.energy = 100;
+
+
+        // isi energi
+
+        Warp.energy +=
+        5 * delta;
+
+
+
+        if(Warp.energy>100)
+
+            Warp.energy=100;
+
 
     }
 
+
+
     // HUD
 
-    const speed = document.getElementById("speed");
+    const speed =
+    document.getElementById("speed");
+
 
     if(speed)
-        speed.textContent = Math.floor(Warp.speed);
 
-    const energy = document.getElementById("energy");
+        speed.textContent =
+        Math.floor(Warp.speed)+" C";
+
+
+
+    const energy =
+    document.getElementById("energy");
+
 
     if(energy)
-        energy.value = Warp.energy;
+
+        energy.value =
+        Warp.energy;
+
 
 }
 
+
+
 // =====================
-// Efek Warp
+// EFEK WARP
 // =====================
 
 function drawWarpEffect(){
 
-    if(!Warp.active) return;
 
-    ctx.strokeStyle = "white";
+    if(!Warp.active)
+        return;
 
-    ctx.lineWidth = 2;
 
-    for(let i=0;i<300;i++){
 
-        const x = Math.random()*canvas.width;
-        const y = Math.random()*canvas.height;
+    ctx.save();
+
+
+    ctx.strokeStyle =
+    "rgba(255,255,255,0.8)";
+
+
+    ctx.lineWidth=2;
+
+
+
+    for(let i=0;i<250;i++){
+
+
+        let x =
+        Math.random()*canvas.width;
+
+
+        let y =
+        Math.random()*canvas.height;
+
+
 
         ctx.beginPath();
 
-        ctx.moveTo(x,y);
+
+        ctx.moveTo(
+            x,
+            y
+        );
+
 
         ctx.lineTo(
+
             x,
-            y+20+Math.random()*80
+
+            y + 100 + Warp.speed/5
+
         );
+
 
         ctx.stroke();
 
+
     }
+
+
+
+    // cahaya tengah warp
+
+    let glow =
+    ctx.createRadialGradient(
+
+        canvas.width/2,
+
+        canvas.height/2,
+
+        0,
+
+        canvas.width/2,
+
+        canvas.height/2,
+
+        300
+
+    );
+
+
+    glow.addColorStop(
+        0,
+        "rgba(255,255,255,0.5)"
+    );
+
+
+    glow.addColorStop(
+        1,
+        "rgba(0,0,0,0)"
+    );
+
+
+    ctx.fillStyle=glow;
+
+
+    ctx.fillRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    ctx.restore();
 
 }

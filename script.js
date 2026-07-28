@@ -372,3 +372,126 @@ function gameLoop(){
     requestAnimationFrame(gameLoop);
 
 }
+
+// =======================
+// BAGIAN 3
+// AUTOPILOT + EFEK WARP
+// =======================
+
+let flashAlpha = 0;
+let autopilot = false;
+
+// --------------------
+// Autopilot
+// --------------------
+
+function updateAutopilot(){
+
+    if(!currentPlanet || currentPlanet==="Belum Dipilih") return;
+
+    if(!autopilot) return;
+
+    const target = planets[currentPlanet];
+
+    if(!target) return;
+
+    const targetX = target.x - cameraX;
+    const targetY = target.y;
+
+    if(ship.x < targetX-5) ship.x += ship.speed;
+    if(ship.x > targetX+5) ship.x -= ship.speed;
+
+    if(ship.y < targetY-5) ship.y += ship.speed;
+    if(ship.y > targetY+5) ship.y -= ship.speed;
+
+    const dx = ship.x-targetX;
+    const dy = ship.y-targetY;
+
+    const jarak = Math.sqrt(dx*dx+dy*dy);
+
+    if(jarak < target.radius){
+
+        autopilot = false;
+        warp = false;
+
+        flashAlpha = 1;
+
+        document.getElementById("message").textContent =
+        "Berhasil tiba di " + currentPlanet;
+
+    }
+
+}
+
+// --------------------
+// Override tombol planet
+// --------------------
+
+function goPlanet(name){
+
+    currentPlanet = name;
+
+    autopilot = true;
+
+    document.getElementById("planetName").textContent = name;
+
+    document.getElementById("message").textContent =
+    "Autopilot menuju " + name;
+
+}
+
+// --------------------
+// Kilatan Warp
+// --------------------
+
+function drawFlash(){
+
+    if(flashAlpha<=0) return;
+
+    ctx.fillStyle =
+    "rgba(255,255,255,"+flashAlpha+")";
+
+    ctx.fillRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    flashAlpha -= 0.02;
+
+}
+
+// --------------------
+// Galaksi
+// --------------------
+
+function drawGalaxy(){
+
+    const g = ctx.createRadialGradient(
+        canvas.width*0.8,
+        canvas.height*0.2,
+        0,
+        canvas.width*0.8,
+        canvas.height*0.2,
+        300
+    );
+
+    g.addColorStop(0,"rgba(120,120,255,0.3)");
+    g.addColorStop(1,"rgba(0,0,0,0)");
+
+    ctx.fillStyle = g;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        canvas.width*0.8,
+        canvas.height*0.2,
+        300,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+}

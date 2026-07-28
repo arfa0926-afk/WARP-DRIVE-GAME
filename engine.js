@@ -124,6 +124,10 @@ function draw(){
     if(typeof drawStars==="function")
         drawStars();
 
+    if(typeof drawWarpEffect==="function")
+        drawWarpEffect();
+    
+
     if(typeof drawPlanets==="function")
         drawPlanets();
 

@@ -1,206 +1,299 @@
 // ======================================
 // PLAYER.JS
-// Pesawat & Kontrol
+// Pesawat Warp Drive
 // ======================================
+
+
+// =====================
+// DATA PESAWAT
+// =====================
 
 const Player = {
 
-    x: 500,
-    y: 500,
+    x:500,
+    y:500,
 
-    width: 40,
-    height: 60,
+    speed:6,
 
-    speed: 5,
+    width:45,
 
-    vx: 0,
-    vy: 0,
+    height:70,
 
-    angle: 0,
+    shield:100,
 
-    enginePower: 0,
+    rotation:0,
 
-    shield: 100
+    enginePower:0
 
 };
 
-// ======================
-// Update Player
-// ======================
+
+// =====================
+// UPDATE PESAWAT
+// =====================
 
 function updatePlayer(delta){
 
-    let moveX = 0;
-    let moveY = 0;
+
+    let moveX=0;
+    let moveY=0;
+
+
 
     if(Keys["w"] || Keys["arrowup"])
-        moveY = -1;
+        moveY=-1;
+
 
     if(Keys["s"] || Keys["arrowdown"])
-        moveY = 1;
+        moveY=1;
+
 
     if(Keys["a"] || Keys["arrowleft"])
-        moveX = -1;
+        moveX=-1;
+
 
     if(Keys["d"] || Keys["arrowright"])
-        moveX = 1;
+        moveX=1;
 
-    Player.vx = moveX * Player.speed;
-    Player.vy = moveY * Player.speed;
 
-    Player.x += Player.vx;
-    Player.y += Player.vy;
 
-    if(moveX !== 0 || moveY !== 0){
+    // Gerakan
 
-        Player.enginePower += 0.1;
+    Player.x += moveX * Player.speed;
 
-        if(Player.enginePower > 1)
-            Player.enginePower = 1;
+    Player.y += moveY * Player.speed;
+
+
+
+    // Efek mesin
+
+    if(moveX!==0 || moveY!==0){
+
+        Player.enginePower += delta*5;
 
     }else{
 
-        Player.enginePower -= 0.05;
+        Player.enginePower -= delta*5;
 
-        if(Player.enginePower < 0)
-            Player.enginePower = 0;
+    }
+
+
+    if(Player.enginePower>1)
+        Player.enginePower=1;
+
+
+    if(Player.enginePower<0)
+        Player.enginePower=0;
+
+
+
+    // Arah pesawat
+
+    if(moveX!==0 || moveY!==0){
+
+        Player.rotation =
+        Math.atan2(moveY,moveX);
 
     }
 
 }
 
-// ======================
-// Kamera
-// ======================
+
+// =====================
+// UPDATE KAMERA
+// =====================
 
 function updateCamera(){
 
     Camera.x =
-        Player.x - canvas.width/2;
+    Player.x - canvas.width/2;
+
 
     Camera.y =
-        Player.y - canvas.height/2;
+    Player.y - canvas.height/2;
 
 }
 
-// ======================
-// Api Mesin
-// ======================
+
+// =====================
+// GAMBAR API MESIN
+// =====================
 
 function drawEngine(){
 
-    if(Player.enginePower <= 0)
+
+    if(Player.enginePower<=0)
         return;
 
-    ctx.fillStyle = "orange";
+
+    let x =
+    Player.x-Camera.x;
+
+
+    let y =
+    Player.y-Camera.y;
+
+
+
+    ctx.fillStyle=
+    "orange";
+
 
     ctx.beginPath();
 
+
     ctx.moveTo(
-        Player.x - Camera.x - 8,
-        Player.y - Camera.y + 28
+        x-8,
+        y+30
     );
 
-    ctx.lineTo(
-        Player.x - Camera.x,
-        Player.y - Camera.y + 55 + Math.random()*20
-    );
 
     ctx.lineTo(
-        Player.x - Camera.x + 8,
-        Player.y - Camera.y + 28
+        x,
+        y+70 + Math.random()*20
     );
+
+
+    ctx.lineTo(
+        x+8,
+        y+30
+    );
+
 
     ctx.fill();
 
 }
 
-// ======================
-// Shield
-// ======================
+
+// =====================
+// GAMBAR SHIELD
+// =====================
 
 function drawShield(){
 
-    if(Player.shield <= 0)
+
+    if(Player.shield<=0)
         return;
 
-    ctx.strokeStyle = "cyan";
 
-    ctx.lineWidth = 2;
+    ctx.strokeStyle=
+    "rgba(0,255,255,0.6)";
+
+
+    ctx.lineWidth=2;
+
 
     ctx.beginPath();
 
+
     ctx.arc(
 
-        Player.x - Camera.x,
+        Player.x-Camera.x,
 
-        Player.y - Camera.y,
+        Player.y-Camera.y,
 
-        28,
+        35,
 
         0,
 
         Math.PI*2
 
     );
+
 
     ctx.stroke();
 
 }
 
-// ======================
-// Gambar Pesawat
-// ======================
+
+// =====================
+// GAMBAR PESAWAT
+// =====================
 
 function drawPlayer(){
 
+
     drawEngine();
+
+
+    let x =
+    Player.x-Camera.x;
+
+
+    let y =
+    Player.y-Camera.y;
+
+
 
     ctx.save();
 
-    ctx.translate(
 
-        Player.x - Camera.x,
+    ctx.translate(x,y);
 
-        Player.y - Camera.y
 
+    ctx.rotate(
+        Player.rotation + Math.PI/2
     );
 
-    ctx.fillStyle = "#00FFFF";
+
+
+    // badan pesawat
+
+    ctx.fillStyle="#00ffff";
+
 
     ctx.beginPath();
 
-    ctx.moveTo(0,-25);
 
-    ctx.lineTo(-15,20);
+    ctx.moveTo(
+        0,
+        -35
+    );
 
-    ctx.lineTo(15,20);
+
+    ctx.lineTo(
+        -20,
+        25
+    );
+
+
+    ctx.lineTo(
+        20,
+        25
+    );
+
 
     ctx.closePath();
 
+
     ctx.fill();
 
-    ctx.fillStyle = "#FFFFFF";
+
+
+    // kaca kokpit
+
+    ctx.fillStyle="white";
+
 
     ctx.beginPath();
 
+
     ctx.arc(
-
         0,
-
-        -5,
-
-        5,
-
+        -10,
+        7,
         0,
-
         Math.PI*2
-
     );
+
 
     ctx.fill();
 
+
+
     ctx.restore();
+
+
 
     drawShield();
 

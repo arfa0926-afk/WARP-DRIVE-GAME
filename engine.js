@@ -158,8 +158,13 @@ function update(delta){
     if(typeof updateMission==="function")
         updateMission();
 
+    
     if(typeof updateEnemies==="function")
         updateEnemies(delta);
+
+
+    if(typeof updateWeapon==="function")
+        updateWeapon(delta);
     
 }
 
@@ -236,6 +241,11 @@ function draw(){
     
     if(typeof drawEnemies==="function")
         drawEnemies();
+
+
+
+    if(typeof drawWeapon==="function")
+        drawWeapon();
 
 }
 

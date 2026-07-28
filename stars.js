@@ -1,99 +1,123 @@
 // ======================================
 // STARS.JS
-// Bintang & Nebula
+// Bintang + Galaksi + Efek Warp
 // ======================================
+
+
+// =====================
+// DATA BINTANG
+// =====================
 
 const Stars = [];
 
-for(let i=0;i<2000;i++){
+for(let i=0;i<2500;i++){
 
     Stars.push({
 
-        x:Math.random()*20000,
+        x:Math.random()*30000,
 
-        y:Math.random()*20000,
+        y:Math.random()*30000,
 
         size:Math.random()*2+0.5,
 
-        alpha:Math.random()
+        brightness:0.3+Math.random()*0.7
 
     });
 
 }
 
-const Nebulas=[];
 
-for(let i=0;i<35;i++){
+// =====================
+// DATA GALAKSI / NEBULA
+// =====================
 
-    Nebulas.push({
+const Galaxies=[];
 
-        x:Math.random()*20000,
 
-        y:Math.random()*20000,
+for(let i=0;i<40;i++){
 
-        radius:150+Math.random()*350,
+    Galaxies.push({
+
+        x:Math.random()*30000,
+
+        y:Math.random()*30000,
+
+        radius:200+Math.random()*400,
 
         color:[
-            "#3366ff",
-            "#9933ff",
-            "#00ffff",
-            "#ff3399",
-            "#ff6633"
-        ][Math.floor(Math.random()*5)]
+            "100,100,255",
+            "255,100,200",
+            "100,255,255",
+            "255,180,100"
+        ][Math.floor(Math.random()*4)]
 
     });
 
 }
 
-// ======================
-// Nebula
-// ======================
+
+// =====================
+// GAMBAR GALAKSI
+// =====================
 
 function drawGalaxy(){
 
-    for(const n of Nebulas){
 
-        const x=n.x-Camera.x*0.15;
+    for(const g of Galaxies){
 
-        const y=n.y-Camera.y*0.15;
 
-        const g=ctx.createRadialGradient(
+        const x =
+        g.x - Camera.x*0.1;
+
+
+        const y =
+        g.y - Camera.y*0.1;
+
+
+
+        const gradient =
+        ctx.createRadialGradient(
 
             x,
-
             y,
-
             0,
 
             x,
-
             y,
-
-            n.radius
+            g.radius
 
         );
 
-        g.addColorStop(0,n.color+"66");
 
-        g.addColorStop(1,"transparent");
+        gradient.addColorStop(
+            0,
+            "rgba("+g.color+",0.35)"
+        );
 
-        ctx.fillStyle=g;
+
+        gradient.addColorStop(
+            1,
+            "rgba(0,0,0,0)"
+        );
+
+
+
+        ctx.fillStyle=gradient;
+
 
         ctx.beginPath();
+
 
         ctx.arc(
 
             x,
-
             y,
-
-            n.radius,
-
+            g.radius,
             0,
-
             Math.PI*2
 
         );
+
 
         ctx.fill();
 
@@ -101,21 +125,35 @@ function drawGalaxy(){
 
 }
 
-// ======================
-// Bintang
-// ======================
+
+
+// =====================
+// GAMBAR BINTANG
+// =====================
 
 function drawStars(){
 
-    ctx.fillStyle="white";
 
     for(const star of Stars){
 
-        const x=star.x-Camera.x*0.30;
 
-        const y=star.y-Camera.y*0.30;
+        let x =
+        star.x - Camera.x*0.25;
 
-        ctx.globalAlpha=star.alpha;
+
+        let y =
+        star.y - Camera.y*0.25;
+
+
+
+        ctx.globalAlpha =
+        star.brightness;
+
+
+
+        ctx.fillStyle="white";
+
+
 
         ctx.fillRect(
 
@@ -129,45 +167,73 @@ function drawStars(){
 
         );
 
+
     }
+
 
     ctx.globalAlpha=1;
 
+
 }
 
-// ======================
-// Warp Effect
-// ======================
+
+
+// =====================
+// EFEK WARP
+// =====================
 
 function drawWarpStars(){
+
 
     if(typeof Warp==="undefined")
         return;
 
+
     if(!Warp.active)
         return;
 
-    ctx.strokeStyle="white";
 
-    for(let i=0;i<250;i++){
 
-        const x=Math.random()*canvas.width;
+    ctx.strokeStyle=
+    "rgba(255,255,255,0.8)";
 
-        const y=Math.random()*canvas.height;
+
+    ctx.lineWidth=2;
+
+
+
+    for(let i=0;i<300;i++){
+
+
+        let x =
+        Math.random()*canvas.width;
+
+
+        let y =
+        Math.random()*canvas.height;
+
+
 
         ctx.beginPath();
 
-        ctx.moveTo(x,y);
+
+        ctx.moveTo(
+            x,
+            y
+        );
+
 
         ctx.lineTo(
 
             x,
 
-            y+30+Math.random()*80
+            y + 50 + Warp.speed/5
 
         );
 
+
         ctx.stroke();
+
 
     }
 

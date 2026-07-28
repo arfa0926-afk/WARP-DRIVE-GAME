@@ -1,168 +1,230 @@
+/* ======================================
+   STYLE.CSS
+   WARP DRIVE GAME
+====================================== */
+
+
 *{
+
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
+
 }
+
 
 body{
+
     overflow:hidden;
-    background:#000;
-    color:#fff;
+
+    background:black;
+
+    font-family:Arial, sans-serif;
+
+    color:white;
+
 }
+
+
+
+/* Canvas Game */
 
 #gameCanvas{
+
     position:fixed;
+
     top:0;
+
     left:0;
-    width:100vw;
-    height:100vh;
-    background:radial-gradient(circle at center,#081220,#000 75%);
-    z-index:1;
+
+    width:100%;
+
+    height:100%;
+
+    background:black;
+
 }
 
+
+
+/* =====================
+   COCKPIT
+===================== */
+
+
 #cockpit{
+
     position:absolute;
+
     top:20px;
+
     left:20px;
-    width:330px;
-    background:rgba(10,20,40,.65);
+
+    width:280px;
+
+    padding:15px;
+
+    background:
+    rgba(0,0,0,0.55);
+
     border:2px solid cyan;
-    border-radius:18px;
-    padding:18px;
-    backdrop-filter:blur(10px);
-    box-shadow:0 0 25px cyan;
-    z-index:5;
+
+    border-radius:15px;
+
+    backdrop-filter:blur(5px);
+
 }
+
+
 
 #cockpit h1{
+
+    color:#00ffff;
+
     text-align:center;
-    color:cyan;
-    margin-bottom:15px;
-    text-shadow:0 0 12px cyan;
+
+    font-size:24px;
+
 }
+
+
 
 .status{
-    margin-bottom:15px;
+
+    margin-top:15px;
+
 }
 
-.status p{
-    color:#9fdfff;
-    font-size:14px;
-}
+
 
 .status h2{
-    margin-top:5px;
-    color:white;
+
+    color:#00ff88;
+
 }
 
-progress{
-    width:100%;
-    height:18px;
-}
 
-.buttons{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-    margin-top:15px;
-}
 
-.buttons button{
-    padding:12px;
-    border:none;
+/* =====================
+   TOMBOL
+===================== */
+
+
+button{
+
+    margin:5px;
+
+    padding:10px 15px;
+
     border-radius:10px;
-    background:#003b64;
+
+    border:1px solid cyan;
+
+    background:#001f33;
+
     color:white;
+
     cursor:pointer;
-    transition:.25s;
-    font-weight:bold;
+
+    font-size:14px;
+
 }
 
-.buttons button:hover{
-    background:#00b7ff;
-    transform:scale(1.05);
-    box-shadow:0 0 15px cyan;
+
+
+button:hover{
+
+    background:#004466;
+
 }
 
-.warpButtons{
-    margin-top:18px;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-}
 
-.warpButtons button{
-    padding:13px;
-    font-size:16px;
-    border:none;
-    border-radius:12px;
-    cursor:pointer;
-    font-weight:bold;
-    transition:.25s;
-}
 
-#warpButton{
-    background:#00ff99;
-    color:black;
-}
+/* =====================
+   PESAN HUD
+===================== */
 
-#warpButton:hover{
-    background:#00ffaa;
-    box-shadow:0 0 25px #00ff99;
-}
-
-.warpButtons button:last-child{
-    background:#ff4444;
-    color:white;
-}
-
-.warpButtons button:last-child:hover{
-    box-shadow:0 0 20px red;
-}
-
-.control{
-    margin-top:18px;
-    text-align:center;
-    border-top:1px solid rgba(255,255,255,.25);
-    padding-top:15px;
-}
-
-.control h3{
-    color:cyan;
-    margin-bottom:8px;
-}
 
 #hud{
+
     position:absolute;
-    bottom:25px;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:5;
+
+    top:20px;
+
+    right:20px;
+
 }
+
+
 
 #message{
-    background:rgba(0,0,0,.65);
-    border:2px solid cyan;
-    border-radius:12px;
-    padding:12px 20px;
+
+    padding:15px;
+
+    background:
+    rgba(0,0,0,0.5);
+
+    border:1px solid cyan;
+
+    border-radius:10px;
+
     color:white;
+
+}
+
+
+
+/* =====================
+   KONTROL HP
+===================== */
+
+
+#mobileControl{
+
+    position:absolute;
+
+    bottom:30px;
+
+    left:30px;
+
     text-align:center;
-    min-width:260px;
-    box-shadow:0 0 15px cyan;
+
 }
 
-@media (max-width:700px){
 
-#cockpit{
-    width:95%;
-    left:50%;
-    top:10px;
-    transform:translateX(-50%);
+
+#mobileControl button{
+
+    width:60px;
+
+    height:60px;
+
+    font-size:25px;
+
+    background:
+    rgba(0,80,120,0.7);
+
 }
 
-.buttons{
-    grid-template-columns:1fr;
+
+
+#mobileControl button:active{
+
+    transform:scale(0.9);
+
 }
+
+
+
+/* =====================
+   BAR ENERGI
+===================== */
+
+
+progress{
+
+    width:220px;
+
+    height:20px;
 
 }

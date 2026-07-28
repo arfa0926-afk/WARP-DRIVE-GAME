@@ -1,10 +1,16 @@
 // ======================================
 // ENGINE.JS
-// Mesin Utama Game
+// WARP DRIVE GAME ENGINE
 // ======================================
+
+
+// =====================
+// CANVAS
+// =====================
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
+
 
 function resizeCanvas(){
 
@@ -15,76 +21,137 @@ function resizeCanvas(){
 
 resizeCanvas();
 
-window.addEventListener("resize", resizeCanvas);
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
 
 
 // =====================
-// Game
+// GAME SETTINGS
 // =====================
 
 const Game = {
 
     running:true,
-    version:"1.0"
+
+    fps:60,
+
+    time:0
 
 };
 
 
 // =====================
-// Kamera
+// CAMERA
 // =====================
 
 const Camera = {
 
     x:0,
-    y:0
+
+    y:0,
+
+    shake:0
 
 };
 
 
 // =====================
-// Input
+// KEYBOARD INPUT
 // =====================
 
-const Keys={};
+const Keys = {};
 
-window.addEventListener("keydown",(e)=>{
 
-    Keys[e.key.toLowerCase()] = true;
+window.addEventListener(
+    "keydown",
+    function(e){
 
-});
+        Keys[e.key.toLowerCase()] = true;
 
-window.addEventListener("keyup",(e)=>{
+    }
+);
 
-    Keys[e.key.toLowerCase()] = false;
 
-});
+window.addEventListener(
+    "keyup",
+    function(e){
+
+        Keys[e.key.toLowerCase()] = false;
+
+    }
+);
 
 
 // =====================
-// Update Semua Sistem
+// MOUSE
+// =====================
+
+const Mouse = {
+
+    x:0,
+
+    y:0
+
+};
+
+
+canvas.addEventListener(
+    "mousemove",
+    function(e){
+
+        Mouse.x=e.clientX;
+        Mouse.y=e.clientY;
+
+    }
+);
+
+
+// =====================
+// DELTA TIME
+// =====================
+
+let lastTime = 0;
+
+
+// =====================
+// UPDATE SEMUA SISTEM
 // =====================
 
 function update(delta){
 
 
-    if(typeof updatePlayer==="function")
+    Game.time += delta;
+
+
+
+    if(typeof updatePlayer === "function")
         updatePlayer(delta);
 
 
-    if(typeof updateWarp==="function")
+
+    if(typeof updateWarp === "function")
         updateWarp(delta);
 
 
-    if(typeof updatePlanet==="function")
+
+    if(typeof updatePlanet === "function")
         updatePlanet(delta);
 
 
-    if(typeof updateHUD==="function")
+
+    if(typeof updateAsteroids === "function")
+        updateAsteroids(delta);
+
+
+
+    if(typeof updateHUD === "function")
         updateHUD();
 
 
-    if(typeof updateCamera==="function")
+
+    if(typeof updateCamera === "function")
         updateCamera();
 
 
@@ -92,11 +159,13 @@ function update(delta){
 
 
 // =====================
-// Render Semua Sistem
+// GAMBAR SEMUA SISTEM
 // =====================
 
 function draw(){
 
+
+    // Background
 
     ctx.fillStyle="black";
 
@@ -108,31 +177,46 @@ function draw(){
     );
 
 
-    if(typeof drawGalaxy==="function")
+
+    // Ruang angkasa
+
+    if(typeof drawGalaxy === "function")
         drawGalaxy();
 
 
-    if(typeof drawStars==="function")
+
+    if(typeof drawStars === "function")
         drawStars();
 
 
-    if(typeof drawWarpEffect==="function")
+
+    // Warp effect
+
+    if(typeof drawWarpEffect === "function")
         drawWarpEffect();
 
 
-    if(typeof drawPlanets==="function")
+
+    // Objek
+
+    if(typeof drawPlanets === "function")
         drawPlanets();
 
 
-    if(typeof drawAsteroids==="function")
+
+    if(typeof drawAsteroids === "function")
         drawAsteroids();
 
 
-    if(typeof drawPlayer==="function")
+
+    if(typeof drawPlayer === "function")
         drawPlayer();
 
 
-    if(typeof drawHUD==="function")
+
+    // HUD
+
+    if(typeof drawHUD === "function")
         drawHUD();
 
 
@@ -140,17 +224,22 @@ function draw(){
 
 
 // =====================
-// Game Loop
+// GAME LOOP
 // =====================
 
-let lastTime=0;
-
 function gameLoop(time){
+
 
     let delta =
     (time-lastTime)/1000;
 
+
     lastTime=time;
+
+
+    if(delta > 0.1)
+        delta=0.1;
+
 
 
     if(Game.running){

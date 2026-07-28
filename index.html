@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WARP DRIVE GAME</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="gameCanvas"></canvas>
+
+<div id="cockpit">
+
+    <h1>🚀 WARP DRIVE</h1>
+
+    <div class="status">
+        <p>Planet Tujuan</p>
+        <h2 id="planetName">Belum Dipilih</h2>
+    </div>
+
+    <div class="status">
+        <p>Kecepatan</p>
+        <h2><span id="speed">0</span> C</h2>
+    </div>
+
+    <div class="status">
+        <p>Energi Warp</p>
+        <progress id="energy" value="100" max="100"></progress>
+    </div>
+
+    <div class="buttons">
+
+        <button onclick="goPlanet('Bumi')">
+            🌍 Bumi
+        </button>
+
+        <button onclick="goPlanet('Mars')">
+            🔴 Mars
+        </button>
+
+        <button onclick="goPlanet('Jupiter')">
+            🟠 Jupiter
+        </button>
+
+        <button onclick="goPlanet('Saturnus')">
+            🪐 Saturnus
+        </button>
+
+        <button onclick="goPlanet('Neptunus')">
+            🔵 Neptunus
+        </button>
+
+    </div>
+
+    <div class="warpButtons">
+
+        <button id="warpButton" onclick="startWarp()">
+            ⚡ AKTIFKAN WARP
+        </button>
+
+        <button onclick="stopWarp()">
+            🛑 MATIKAN WARP
+        </button>
+
+    </div>
+
+    <div class="control">
+
+        <h3>Kendali Pesawat</h3>
+
+        <p>⬅️ ➡️ ⬆️ ⬇️ atau WASD</p>
+
+    </div>
+
+</div>
+
+<div id="hud">
+
+    <div id="message">
+        Selamat Datang Kapten
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

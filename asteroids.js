@@ -5,25 +5,24 @@
 
 
 // =====================
-// Data Asteroid
+// DATA ASTEROID
 // =====================
 
 const Asteroids = [];
 
-for(let i = 0; i < 150; i++){
+for(let i=0;i<200;i++){
 
     Asteroids.push({
 
-        x: Math.random()*20000,
-        y: Math.random()*20000,
+        x: Math.random()*30000,
+
+        y: Math.random()*30000,
 
         radius: 10 + Math.random()*25,
 
-        speed:
-        0.2 + Math.random()*1,
+        speed: 0.5 + Math.random()*2,
 
-        angle:
-        Math.random()*Math.PI*2
+        angle: Math.random()*Math.PI*2
 
     });
 
@@ -31,59 +30,77 @@ for(let i = 0; i < 150; i++){
 
 
 // =====================
-// Ledakan
+// DATA LEDAKAN
 // =====================
 
-const Explosions = [];
+const Explosions=[];
+
+
+// =====================
+// BUAT LEDAKAN
+// =====================
 
 function createExplosion(x,y){
 
     Explosions.push({
 
         x:x,
+
         y:y,
 
-        size:5,
+        radius:5,
 
-        maxSize:80,
+        alpha:1,
 
-        alpha:1
+        particles:20
 
     });
 
 
     if(typeof playExplosion==="function"){
+
         playExplosion();
+
     }
 
 }
 
 
 // =====================
-// Update Asteroid
+// UPDATE ASTEROID
 // =====================
 
 function updateAsteroids(delta){
 
+
     for(const a of Asteroids){
 
-        a.x += Math.cos(a.angle)
+
+        a.x +=
+        Math.cos(a.angle)
         * a.speed;
 
-        a.y += Math.sin(a.angle)
+
+        a.y +=
+        Math.sin(a.angle)
         * a.speed;
 
 
-        // kembali ke dunia
 
-        if(a.x > 20000)
-            a.x = 0;
-
-        if(a.y > 20000)
-            a.y = 0;
-
+        // cek tabrakan
 
         checkAsteroidCollision(a);
+
+
+        // reset jika terlalu jauh
+
+        if(a.x>30000)
+            a.x=0;
+
+
+        if(a.y>30000)
+            a.y=0;
+
 
     }
 
@@ -95,26 +112,30 @@ function updateAsteroids(delta){
 
 
 // =====================
-// Cek Tabrakan
+// TABRAKAN
 // =====================
 
 function checkAsteroidCollision(a){
 
 
-    const dx =
+    let dx =
     a.x - Player.x;
 
-    const dy =
+
+    let dy =
     a.y - Player.y;
 
 
-    const distance =
+
+    let distance =
     Math.sqrt(
         dx*dx + dy*dy
     );
 
 
-    if(distance < a.radius + 25){
+
+    if(distance <
+       a.radius + 25){
 
 
         createExplosion(
@@ -123,34 +144,43 @@ function checkAsteroidCollision(a){
         );
 
 
-        Player.shield -= 25;
+
+        Player.shield -= 20;
 
 
-        // asteroid dipindah
+
+        // asteroid pindah
 
         a.x =
-        Math.random()*20000;
+        Math.random()*30000;
+
 
         a.y =
-        Math.random()*20000;
+        Math.random()*30000;
 
 
 
-        if(Player.shield <= 0){
-
-            Player.shield = 100;
+        if(Player.shield<=0){
 
 
-            Player.x = 500;
-            Player.y = 500;
+            Player.shield=100;
+
+
+            Player.x=500;
+
+            Player.y=500;
+
 
 
             const msg =
             document.getElementById("message");
 
+
             if(msg)
+
                 msg.textContent =
                 "💥 Pesawat hancur! Respawn";
+
 
         }
 
@@ -160,19 +190,24 @@ function checkAsteroidCollision(a){
 
 
 // =====================
-// Update Ledakan
+// UPDATE LEDAKAN
 // =====================
 
 function updateExplosions(){
 
+
     for(let i=Explosions.length-1;i>=0;i--){
 
-        let e=Explosions[i];
+
+        const e =
+        Explosions[i];
 
 
-        e.size += 3;
+        e.radius += 4;
+
 
         e.alpha -= 0.03;
+
 
 
         if(e.alpha<=0){
@@ -187,17 +222,20 @@ function updateExplosions(){
 
 
 // =====================
-// Gambar Asteroid
+// GAMBAR ASTEROID
 // =====================
 
 function drawAsteroids(){
 
-    ctx.fillStyle="#777";
-
 
     for(const a of Asteroids){
 
+
+        ctx.fillStyle="#777";
+
+
         ctx.beginPath();
+
 
         ctx.arc(
 
@@ -213,9 +251,12 @@ function drawAsteroids(){
 
         );
 
+
         ctx.fill();
 
+
     }
+
 
 
     drawExplosions();
@@ -224,16 +265,18 @@ function drawAsteroids(){
 
 
 // =====================
-// Gambar Ledakan
+// GAMBAR LEDAKAN
 // =====================
 
 function drawExplosions(){
 
+
     for(const e of Explosions){
 
+
         ctx.strokeStyle =
-        "rgba(255,120,0,"+
-        e.alpha+
+        "rgba(255,120,0,"
+        + e.alpha +
         ")";
 
 
@@ -249,7 +292,7 @@ function drawExplosions(){
 
             e.y-Camera.y,
 
-            e.size,
+            e.radius,
 
             0,
 
@@ -259,6 +302,7 @@ function drawExplosions(){
 
 
         ctx.stroke();
+
 
     }
 

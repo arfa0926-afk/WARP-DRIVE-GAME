@@ -177,3 +177,198 @@ function gameLoop(){
 }
 
 gameLoop();
+
+// =======================
+// BAGIAN 2
+// PLANET
+// =======================
+
+const planets = {
+    "Bumi": {
+        color: "#3aa6ff",
+        x: 1200,
+        y: 180,
+        radius: 45
+    },
+    "Mars": {
+        color: "#ff5533",
+        x: 1600,
+        y: 350,
+        radius: 35
+    },
+    "Jupiter": {
+        color: "#d8a26d",
+        x: 2100,
+        y: 220,
+        radius: 65
+    },
+    "Saturnus": {
+        color: "#f4dc8a",
+        x: 2700,
+        y: 300,
+        radius: 60
+    },
+    "Neptunus": {
+        color: "#4d8dff",
+        x: 3300,
+        y: 150,
+        radius: 50
+    }
+};
+
+// Kamera dunia
+let cameraX = 0;
+
+// --------------------
+// Tombol Planet
+// --------------------
+
+function goPlanet(name){
+
+    currentPlanet = name;
+
+    document.getElementById("planetName").textContent = name;
+
+    document.getElementById("message").textContent =
+    "Tujuan diubah ke " + name;
+
+}
+
+// --------------------
+// Warp
+// --------------------
+
+let warp = false;
+
+function startWarp(){
+
+    warp = true;
+
+    document.getElementById("message").textContent =
+    "Warp Drive Aktif";
+
+}
+
+function stopWarp(){
+
+    warp = false;
+
+    document.getElementById("message").textContent =
+    "Warp Drive Dimatikan";
+
+}
+
+// --------------------
+// Update Warp
+// --------------------
+
+function updateWarp(){
+
+    if(warp){
+
+        if(warpSpeed < 50)
+            warpSpeed += 0.5;
+
+    }else{
+
+        if(warpSpeed > 0)
+            warpSpeed -= 0.5;
+
+    }
+
+    cameraX += warpSpeed;
+
+    document.getElementById("speed").textContent =
+    Math.floor(warpSpeed);
+
+}
+
+// --------------------
+// Planet
+// --------------------
+
+function drawPlanets(){
+
+    for(const name in planets){
+
+        const p = planets[name];
+
+        const drawX = p.x - cameraX;
+
+        if(drawX < -200) continue;
+        if(drawX > canvas.width + 200) continue;
+
+        ctx.beginPath();
+
+        ctx.fillStyle = p.color;
+
+        ctx.arc(
+            drawX,
+            p.y,
+            p.radius,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+        // Cincin Saturnus
+
+        if(name=="Saturnus"){
+
+            ctx.strokeStyle="#fff6b0";
+
+            ctx.lineWidth=5;
+
+            ctx.beginPath();
+
+            ctx.ellipse(
+                drawX,
+                p.y,
+                p.radius+25,
+                p.radius-15,
+                0,
+                0,
+                Math.PI*2
+            );
+
+            ctx.stroke();
+
+        }
+
+        ctx.fillStyle="white";
+
+        ctx.font="18px Arial";
+
+        ctx.fillText(
+            name,
+            drawX-p.radius,
+            p.y+p.radius+25
+        );
+
+    }
+
+}
+
+// --------------------
+// Ganti Game Loop
+// --------------------
+
+function gameLoop(){
+
+    ctx.fillStyle="black";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    updateWarp();
+
+    drawStars();
+
+    drawPlanets();
+
+    moveShip();
+
+    drawShip();
+
+    requestAnimationFrame(gameLoop);
+
+}

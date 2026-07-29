@@ -103,31 +103,11 @@ function holdButton(id,direction){
 // AKTIFKAN TOMBOL
 // =====================
 
-window.onload=function(){
+window.addEventListener("load", function () {
 
+    holdButton("btnUp", "up");
+    holdButton("btnDown", "down");
+    holdButton("btnLeft", "left");
+    holdButton("btnRight", "right");
 
-    holdButton(
-        "btnUp",
-        "up"
-    );
-
-
-    holdButton(
-        "btnDown",
-        "down"
-    );
-
-
-    holdButton(
-        "btnLeft",
-        "left"
-    );
-
-
-    holdButton(
-        "btnRight",
-        "right"
-    );
-
-
-};
+});

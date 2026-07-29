@@ -146,24 +146,24 @@ function update(delta){
 
 
 
-    if(typeof updateHUD === "function")
+    if(typeof updateEnemies === "function")
         updateHUD();
 
 
 
-    if(typeof updateCamera === "function")
+    if(typeof updateWeapon === "function")
         updateCamera();
 
    
-    if(typeof updateMission==="function")
+    if(typeof updateMission === "function")
         updateMission();
 
     
-    if(typeof updateEnemies==="function")
+    if(typeof updateHUD === "function")
         updateEnemies(delta);
 
 
-    if(typeof updateWeapon==="function")
+    if(typeof updateCamera === "function")
         updateWeapon(delta);
     
 }
@@ -220,31 +220,31 @@ function draw(){
 
 
 
-    if(typeof drawPlayer === "function")
+    if(typeof drawEnemies === "function")
         drawPlayer();
 
 
 
     // HUD
 
-    if(typeof drawHUD === "function")
+    if(typeof drawWeapon === "function")
         drawHUD();
 
     
     
     // MissionHUD
     
-    if(typeof drawMissionHUD==="function")
+    if(typeof drawPlayer === "function")
         drawMissionHUD();
 
     
     
-    if(typeof drawEnemies==="function")
+    if(typeof drawHUD === "function")
         drawEnemies();
 
 
 
-    if(typeof drawWeapon==="function")
+    if(typeof drawMissionHUD === "function")
         drawWeapon();
 
 }
